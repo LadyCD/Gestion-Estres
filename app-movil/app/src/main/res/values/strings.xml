@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gestión del Estrés</string>
+    <string name="titulo_registro">Crear cuenta</string>
+    <string name="titulo_chequeo">Chequeo diario</string>
+    <string name="titulo_dispositivo">Mi dispositivo</string>
+    <string name="titulo_privacidad">Uso de sus datos de salud</string>
+
+    <!-- Comunes -->
+    <string name="campo_correo">Correo institucional</string>
+    <string name="campo_contrasena">Contraseña</string>
+    <string name="error_conexion">No fue posible conectar con el servidor. Revise su conexión e intente de nuevo.</string>
+    <string name="sesion_vencida">Su sesión venció por inactividad. Inicie sesión de nuevo.</string>
+
+    <!-- HU020 -->
+    <string name="boton_ingresar">Ingresar</string>
+    <string name="boton_crear_cuenta">¿No tiene cuenta? Regístrese</string>
+    <string name="login_incorrecto">Correo o contraseña incorrectos.</string>
+
+    <!-- HU001 -->
+    <string name="campo_nombre">Nombre completo</string>
+    <string name="campo_cargo">Cargo</string>
+    <string name="campo_area">Área de trabajo</string>
+    <string name="ayuda_contrasena">Mínimo 8 caracteres, con al menos una letra y un número.</string>
+    <string name="titulo_consentimiento">Consentimiento informado (versión 1.0)</string>
+    <string name="acepto_consentimiento">He leído y acepto el tratamiento de mis datos personales y de salud</string>
+    <string name="boton_registrarme">Registrarme</string>
+    <string name="error_nombre">Escriba su nombre completo (de 3 a 150 caracteres).</string>
+    <string name="error_correo">Escriba un correo con formato válido.</string>
+    <string name="error_contrasena">La contraseña debe tener mínimo 8 caracteres, al menos una letra y un número.</string>
+    <string name="error_listas">Seleccione su cargo y su área.</string>
+    <string name="correo_duplicado">Ya existe una cuenta con este correo.</string>
+    <string name="registro_exitoso">Cuenta creada correctamente.</string>
+    <string name="registro_fallido">No fue posible completar el registro, intente de nuevo.</string>
+
+    <!-- Inicio -->
+    <string name="saludo">Hola, %1$s</string>
+    <string name="nivel_titulo">Tu nivel de estrés en la última hora</string>
+    <string name="nivel_sin_datos">Sin datos suficientes en la última hora</string>
+    <string name="nivel_parcial">Medición parcial: falta una de las fuentes de datos.</string>
+    <string name="aviso_no_diagnostico">Este resultado es un indicador orientativo, no un diagnóstico médico.</string>
+    <string name="linea_base_progreso">Calculando tu línea base: día %1$d de %2$d días válidos</string>
+    <string name="boton_vincular">Vincular dispositivo</string>
+    <string name="boton_chequeo">Responder chequeo diario</string>
+    <string name="boton_mi_dispositivo">Mi dispositivo</string>
+    <string name="boton_cerrar_sesion">Cerrar sesión</string>
+    <string name="rol_sst">Su rol es SST/Talento Humano. Los reportes agregados y anónimos por área se desarrollan en HU010.</string>
+
+    <!-- HU021 -->
+    <string name="pregunta_estres">En este momento, ¿qué tan estresado(a) se siente? (0 = nada, 10 = muchísimo)</string>
+    <string name="pregunta_energia">¿Cómo está su nivel de energía? (1 = muy bajo, 5 = muy alto)</string>
+    <string name="pregunta_tension">¿Hay alguna situación de su trabajo que le esté generando tensión ahora?</string>
+    <string name="si">Sí</string>
+    <string name="no">No</string>
+    <string name="boton_enviar">Enviar</string>
+    <string name="boton_omitir">Omitir</string>
+    <string name="aviso_instrumento">Estas preguntas son propias del proyecto y no constituyen un instrumento validado.</string>
+    <string name="error_tension">Responda si hay una situación que le genera tensión.</string>
+    <string name="chequeo_guardado">Chequeo guardado. ¡Gracias!</string>
+
+    <!-- HU002 -->
+    <string name="estado_vinculado">Estado: Vinculado</string>
+    <string name="estado_desconectado">Estado: Desconectado</string>
+    <string name="ultima_sincronizacion">Última sincronización: %1$s</string>
+    <string name="sin_sincronizacion">Última sincronización: todavía no hay datos enviados</string>
+    <string name="permisos_explicacion">La aplicación leerá únicamente su frecuencia cardíaca y su variabilidad de la frecuencia cardíaca (HRV) desde Health Connect, para estimar su nivel de estrés. Puede desvincular el dispositivo en cualquier momento.</string>
+    <string name="boton_desvincular">Desvincular</string>
+    <string name="boton_reintentar">Reintentar</string>
+    <string name="boton_instalar_hc">Instalar Health Connect</string>
+    <string name="dispositivo_vinculado">Dispositivo vinculado</string>
+    <string name="sin_hrv">Sin datos de HRV: la estimación usará solo la frecuencia cardíaca y se marcará como parcial.</string>
+    <string name="error_permiso_fc">Rechazó el permiso de frecuencia cardíaca, que es obligatorio para vincular el dispositivo.</string>
+    <string name="error_sin_hc">Health Connect no está instalado o debe actualizarse.</string>
+    <string name="error_sin_datos">No se encontraron datos de frecuencia cardíaca de ningún wearable en las últimas 24 horas.</string>
+    <string name="error_sin_consentimiento">Debe aceptar el consentimiento informado para vincular un dispositivo.</string>
+    <string name="dispositivo_desvinculado">Dispositivo desvinculado. La aplicación dejó de leer y enviar datos.</string>
+</resources>

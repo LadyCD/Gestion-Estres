@@ -18,8 +18,6 @@ public class Usuario {
     @Column(name = "nombre_completo", nullable = false, length = 150)
     private String nombreCompleto;
 
-    @Column(nullable = false, length = 20)
-    private String documento;
 
     @Column(nullable = false, length = 150)
     private String correo;
@@ -56,8 +54,6 @@ public class Usuario {
     public void setId(Integer id) { this.id = id; }
     public String getNombreCompleto() { return nombreCompleto; }
     public void setNombreCompleto(String nombreCompleto) { this.nombreCompleto = nombreCompleto; }
-    public String getDocumento() { return documento; }
-    public void setDocumento(String documento) { this.documento = documento; }
     public String getCorreo() { return correo; }
     public void setCorreo(String correo) { this.correo = correo; }
     public String getContrasenaHash() { return contrasenaHash; }

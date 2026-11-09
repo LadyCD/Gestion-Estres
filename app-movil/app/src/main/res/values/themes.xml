@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.GestionEstres" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">@color/primario</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+    </style>
+</resources>

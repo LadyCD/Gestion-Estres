@@ -84,9 +84,14 @@ CREATE TABLE dispositivo_vinculado (
   plataforma             VARCHAR(50)  NOT NULL DEFAULT 'Health Connect',
   estado                 ENUM('VINCULADO','DESCONECTADO') NOT NULL DEFAULT 'DESCONECTADO',
   hrv_disponible         BOOLEAN      NOT NULL DEFAULT FALSE,  -- si es FALSE, la detección (HU003) es parcial
+  -- HU026: credencial del teléfono para enviar ventanas en segundo plano (la sesión
+  -- del usuario vence a los 15 min, HU020). Se guarda solo su hash SHA-256 (64 hex);
+  -- se emite al vincular y se anula (NULL) al desvincular.
+  token_hash             CHAR(64)     NULL,
   ultima_sincronizacion  DATETIME     NULL,
   PRIMARY KEY (id),
   UNIQUE KEY uq_dispositivo_usuario (usuario_id),
+  UNIQUE KEY uq_dispositivo_token (token_hash),
   CONSTRAINT fk_dispositivo_usuario FOREIGN KEY (usuario_id)
     REFERENCES usuario (id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
