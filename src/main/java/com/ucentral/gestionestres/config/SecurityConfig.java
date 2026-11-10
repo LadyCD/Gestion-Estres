@@ -8,7 +8,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
+import org.springframework.http.HttpMethod;
 /**
  * Configuración base de seguridad.
  * La autenticación con correo y contraseña, el bloqueo por intentos y los roles
@@ -30,8 +30,8 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(RUTAS_PUBLICAS).permitAll()
-                        .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults());
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
+                        .anyRequest().authenticated());
         return http.build();
     }
 

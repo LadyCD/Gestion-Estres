@@ -67,4 +67,10 @@ public class ManejadorErrores {
         return ResponseEntity.status(estado)
                 .body(new ErrorRespuesta(LocalDateTime.now(), estado.value(), mensaje, campos));
     }
+
+        /** Solicitud con datos que incumplen una regla de entrada. */
+    @ExceptionHandler(SolicitudInvalidaException.class)
+    public ResponseEntity<ErrorRespuesta> solicitudInvalida(SolicitudInvalidaException ex) {
+        return responder(HttpStatus.BAD_REQUEST, ex.getMessage(), null);
+    }
 }
