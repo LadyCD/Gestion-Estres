@@ -1,11 +1,18 @@
 package com.ucentral.gestionestres.exception;
 
+import com.ucentral.gestionestres.model.RegistroAcceso;
+import com.ucentral.gestionestres.model.ResultadoAcceso;
+import com.ucentral.gestionestres.repository.RegistroAccesoRepository;
+import com.ucentral.gestionestres.repository.UsuarioRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -20,6 +27,14 @@ import java.util.Map;
 public class ManejadorErrores {
 
     private static final Logger log = LoggerFactory.getLogger(ManejadorErrores.class);
+
+    private final UsuarioRepository usuarios;
+    private final RegistroAccesoRepository accesos;
+
+    public ManejadorErrores(UsuarioRepository usuarios, RegistroAccesoRepository accesos) {
+        this.usuarios = usuarios;
+        this.accesos = accesos;
+    }
 
     @ExceptionHandler(RecursoNoEncontradoException.class)
     public ResponseEntity<ErrorRespuesta> noEncontrado(RecursoNoEncontradoException ex) {
@@ -46,9 +61,28 @@ public class ManejadorErrores {
         return responder(HttpStatus.BAD_REQUEST, "El cuerpo de la solicitud no tiene un formato válido", null);
     }
 
-    /** HU020: el rol del usuario no permite usar esta función. */
+    /** Solicitud con datos que incumplen una regla de entrada. */
+    @ExceptionHandler(SolicitudInvalidaException.class)
+    public ResponseEntity<ErrorRespuesta> solicitudInvalida(SolicitudInvalidaException ex) {
+        return responder(HttpStatus.BAD_REQUEST, ex.getMessage(), null);
+    }
+
+    /** HU020: correo o contraseña incorrectos (mensaje genérico). */
+    @ExceptionHandler(CredencialesInvalidasException.class)
+    public ResponseEntity<ErrorRespuesta> credencialesInvalidas(CredencialesInvalidasException ex) {
+        return responder(HttpStatus.UNAUTHORIZED, ex.getMessage(), null);
+    }
+
+    /** HU020: cuenta bloqueada por intentos fallidos. */
+    @ExceptionHandler(CuentaBloqueadaException.class)
+    public ResponseEntity<ErrorRespuesta> cuentaBloqueada(CuentaBloqueadaException ex) {
+        return responder(HttpStatus.LOCKED, ex.getMessage(), null);
+    }
+
+    /** HU020: el rol del usuario no permite usar esta función. Se deja registro del rechazo. */
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorRespuesta> accesoDenegado(AccessDeniedException ex) {
+    public ResponseEntity<ErrorRespuesta> accesoDenegado(AccessDeniedException ex, HttpServletRequest request) {
+        registrarRechazoPorRol(request);
         return responder(HttpStatus.FORBIDDEN, "No tiene permiso para usar esta función", null);
     }
 
@@ -61,6 +95,26 @@ public class ManejadorErrores {
     public ResponseEntity<ErrorRespuesta> general(Exception ex) {
         log.error("Error no controlado", ex);
         return responder(HttpStatus.INTERNAL_SERVER_ERROR, "Ocurrió un error inesperado. Intente de nuevo.", null);
+    }
+
+    private void registrarRechazoPorRol(HttpServletRequest request) {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth == null || auth.getName() == null) {
+                return;
+            }
+            usuarios.findByCorreo(auth.getName()).ifPresent(usuario -> {
+                RegistroAcceso r = new RegistroAcceso();
+                r.setUsuario(usuario);
+                r.setFuncion(request.getMethod() + " " + request.getRequestURI());
+                r.setResultado(ResultadoAcceso.RECHAZADO);
+                r.setFiltros("Rol " + usuario.getRol() + " sin permiso");
+                accesos.save(r);
+            });
+        } catch (Exception e) {
+            // Que un fallo al registrar no oculte el 403 real
+            log.warn("No se pudo registrar el acceso rechazado", e);
+        }
     }
 
     private ResponseEntity<ErrorRespuesta> responder(HttpStatus estado, String mensaje, Map<String, String> campos) {
