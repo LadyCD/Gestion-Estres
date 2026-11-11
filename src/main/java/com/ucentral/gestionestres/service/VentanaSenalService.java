@@ -32,6 +32,7 @@ public class VentanaSenalService {
     private final VentanaSenalRepository ventanaSenalRepository;
     private final DispositivoVinculadoRepository dispositivoRepository;
     private final DispositivoService dispositivoService;
+    private final LineaBaseService lineaBaseService;
     private final Clock reloj;
 
     @Value("${app.sincronizacion.horas-retencion:24}")
@@ -40,10 +41,12 @@ public class VentanaSenalService {
     public VentanaSenalService(VentanaSenalRepository ventanaSenalRepository,
                                DispositivoVinculadoRepository dispositivoRepository,
                                DispositivoService dispositivoService,
+                               LineaBaseService lineaBaseService,
                                Clock reloj) {
         this.ventanaSenalRepository = ventanaSenalRepository;
         this.dispositivoRepository = dispositivoRepository;
         this.dispositivoService = dispositivoService;
+        this.lineaBaseService = lineaBaseService;
         this.reloj = reloj;
     }
 
@@ -68,6 +71,9 @@ public class VentanaSenalService {
         ventana.setHrvPromedio(dto.hrvPromedio());
         ventana.setNumLecturas(dto.numLecturas());
         VentanaSenal guardada = ventanaSenalRepository.save(ventana);
+
+        // HU025: cada ventana alimenta la línea base individual
+        lineaBaseService.registrarVentana(usuario, guardada);
 
         // La app muestra esta fecha como "Última sincronización" (HU002)
         dispositivo.setUltimaSincronizacion(LocalDateTime.now(reloj));

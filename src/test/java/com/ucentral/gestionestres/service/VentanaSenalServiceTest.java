@@ -40,6 +40,7 @@ class VentanaSenalServiceTest {
     @Mock private VentanaSenalRepository ventanaRepository;
     @Mock private DispositivoVinculadoRepository dispositivoRepository;
     @Mock private DispositivoService dispositivoService;
+    @Mock private LineaBaseService lineaBaseService;
 
     private VentanaSenalService servicio;
     private DispositivoVinculado dispositivo;
@@ -47,7 +48,8 @@ class VentanaSenalServiceTest {
     @BeforeEach
     void preparar() {
         Clock reloj = Clock.fixed(AHORA.atZone(BOGOTA).toInstant(), BOGOTA);
-        servicio = new VentanaSenalService(ventanaRepository, dispositivoRepository, dispositivoService, reloj);
+        servicio = new VentanaSenalService(ventanaRepository, dispositivoRepository, dispositivoService,
+                lineaBaseService, reloj);
         Usuario usuario = new Usuario();
         ReflectionTestUtils.setField(usuario, "id", 7);
         dispositivo = new DispositivoVinculado();
@@ -70,6 +72,7 @@ class VentanaSenalServiceTest {
         assertThat(r.inicio()).isEqualTo(INICIO);
         assertThat(dispositivo.getUltimaSincronizacion()).isEqualTo(AHORA);
         verify(dispositivoRepository).save(dispositivo);
+        verify(lineaBaseService).registrarVentana(any(), any());
     }
 
     @Test
