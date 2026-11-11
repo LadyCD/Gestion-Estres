@@ -12,4 +12,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findByCorreo(String correo);
 
     boolean existsByCorreo(String correo);
+
+    /** HU003: la clasificación horaria se ejecuta para los trabajadores. */
+    java.util.List<Usuario> findByRol(com.ucentral.gestionestres.model.Rol rol);
 }
