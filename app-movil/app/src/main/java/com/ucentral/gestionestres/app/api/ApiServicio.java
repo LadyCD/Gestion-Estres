@@ -51,4 +51,8 @@ public interface ApiServicio {
 
     @GET("api/detecciones/ultima")
     Call<Dtos.Deteccion> ultimaDeteccion();
+
+    // HU003: clasifica ya con los datos de la última hora (para no esperar la evaluación horaria)
+    @POST("api/detecciones/evaluar")
+    Call<Dtos.Deteccion> evaluarAhora();
 }

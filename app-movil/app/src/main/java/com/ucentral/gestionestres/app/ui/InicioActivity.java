@@ -101,7 +101,26 @@ public class InicioActivity extends BaseActivity {
         });
     }
 
+    /** Pide la clasificación inmediata; si no hay datos de la última hora (204), muestra la última guardada. */
     private void consultarNivel() {
+        ApiCliente.servicio(this).evaluarAhora().enqueue(new Callback<Dtos.Deteccion>() {
+            @Override
+            public void onResponse(@NonNull Call<Dtos.Deteccion> call, @NonNull Response<Dtos.Deteccion> r) {
+                if (r.isSuccessful() && r.body() != null && r.body().nivel != null) {
+                    mostrarNivel(r.body());
+                } else {
+                    consultarUltima();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Dtos.Deteccion> call, @NonNull Throwable t) {
+                consultarUltima();
+            }
+        });
+    }
+
+    private void consultarUltima() {
         ApiCliente.servicio(this).ultimaDeteccion().enqueue(new Callback<Dtos.Deteccion>() {
             @Override
             public void onResponse(@NonNull Call<Dtos.Deteccion> call, @NonNull Response<Dtos.Deteccion> r) {
@@ -112,17 +131,7 @@ public class InicioActivity extends BaseActivity {
                     parcial.setVisibility(View.GONE);
                     return;
                 }
-                switch (d.nivel) {
-                    case "ALTO":
-                        pintar("Alto", R.color.nivel_alto);
-                        break;
-                    case "MODERADO":
-                        pintar("Moderado", R.color.nivel_moderado);
-                        break;
-                    default:
-                        pintar("Bajo", R.color.nivel_bajo);
-                }
-                parcial.setVisibility(d.parcial ? View.VISIBLE : View.GONE);
+                mostrarNivel(d);
             }
 
             @Override
@@ -130,6 +139,20 @@ public class InicioActivity extends BaseActivity {
                 nivel.setText(R.string.nivel_sin_datos);
             }
         });
+    }
+
+    private void mostrarNivel(Dtos.Deteccion d) {
+        switch (d.nivel) {
+            case "ALTO":
+                pintar("Alto", R.color.nivel_alto);
+                break;
+            case "MODERADO":
+                pintar("Moderado", R.color.nivel_moderado);
+                break;
+            default:
+                pintar("Bajo", R.color.nivel_bajo);
+        }
+        parcial.setVisibility(d.parcial ? View.VISIBLE : View.GONE);
     }
 
     private void pintar(String texto, int color) {
