@@ -32,6 +32,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(RUTAS_PUBLICAS).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
+                        // HU026: la app envía con la credencial del dispositivo (X-Token-Dispositivo),
+                        // no con la sesión; la valida VentanaSenalService
+                        .requestMatchers(HttpMethod.POST, "/api/ventanas").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(e -> e
                         .authenticationEntryPoint((req, res, ex) -> res.sendError(401)))

@@ -67,6 +67,12 @@ public class ManejadorErrores {
         return responder(HttpStatus.BAD_REQUEST, ex.getMessage(), null);
     }
 
+    /** HU026: credencial del dispositivo inválida o anulada. */
+    @ExceptionHandler(TokenDispositivoInvalidoException.class)
+    public ResponseEntity<ErrorRespuesta> tokenDispositivoInvalido(TokenDispositivoInvalidoException ex) {
+        return responder(HttpStatus.UNAUTHORIZED, ex.getMessage(), null);
+    }
+
     /** HU020: correo o contraseña incorrectos (mensaje genérico). */
     @ExceptionHandler(CredencialesInvalidasException.class)
     public ResponseEntity<ErrorRespuesta> credencialesInvalidas(CredencialesInvalidasException ex) {
