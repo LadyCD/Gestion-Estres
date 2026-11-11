@@ -51,6 +51,9 @@ dependencies {
 
     // HU026: sincronización periódica en segundo plano
     implementation 'androidx.work:work-runtime:2.10.0'
+    // Worker (Java) expone ListenableFuture de Guava. Otra librería trae la versión
+    // "vacía" (9999.0-empty), por eso se agrega Guava completa para Android
+    implementation 'com.google.guava:guava:33.3.1-android'
 
     // Cliente HTTP del backend
     implementation 'com.squareup.retrofit2:retrofit:2.11.0'
