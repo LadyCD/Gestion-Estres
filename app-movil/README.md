@@ -49,7 +49,9 @@ Fechas en texto ISO-8601, hora de Colombia, sin zona: `2026-11-09T08:15:00`.
 |---|---|---|---|
 | HU001 | `GET /api/catalogos/areas` y `/cargos` (públicos) | — | `[{id, nombre}]` |
 | HU001 | `POST /api/usuarios` (público) | `{nombreCompleto, correo, contrasena, cargoId, areaId, versionConsentimiento}` | `201 {id, nombreCompleto, correo, rol}` · `409` correo duplicado · `400` validación (incluye dominio no permitido) |
-| HU020 | `POST /api/auth/login` (público) | `{correo, contrasena}` | `200 {token, rol, nombreCompleto, expiraEnMinutos}` · `401` mensaje genérico · `423` cuenta bloqueada 15 min |
+| HU001 | `POST /api/usuarios/verificar` (público) | `{correo, codigo}` (6 dígitos) | `204` correo verificado · `400` código incorrecto, vencido (15 min) o 5 intentos agotados |
+| HU001 | `POST /api/usuarios/reenviar-codigo` (público) | `{correo}` | `202` siempre (no revela si el correo existe) |
+| HU020 | `POST /api/auth/login` (público) | `{correo, contrasena}` | `200 {token, rol, nombreCompleto, expiraEnMinutos}` · `401` mensaje genérico · `403` correo sin verificar · `423` cuenta bloqueada 15 min |
 | HU020 | `POST /api/auth/logout` | — | `204` |
 | HU021 | `POST /api/cuestionarios/diario` | `{estres 0-10, energia 1-5, tension}` | `201` |
 | HU002 | `GET /api/dispositivo` | — | `200 {estado, hrvDisponible, ultimaSincronizacion}` |

@@ -46,6 +46,10 @@ CREATE TABLE usuario (
   id                 INT UNSIGNED NOT NULL AUTO_INCREMENT,
   nombre_completo    VARCHAR(150) NOT NULL,
   correo             VARCHAR(150) NOT NULL,          -- correo institucional: identifica al usuario
+  correo_verificado  BOOLEAN NOT NULL DEFAULT FALSE,     -- HU001: se activa con el código enviado al correo
+  codigo_verificacion_hash CHAR(64) NULL,                -- HU001: SHA-256 del código, nunca el código
+  codigo_expira      DATETIME NULL,                      -- HU001: el código vence a los 15 minutos
+  intentos_codigo    TINYINT UNSIGNED NOT NULL DEFAULT 0, -- HU001: máximo 5 intentos por código
   contrasena_hash    VARCHAR(255) NOT NULL,          -- hash (p. ej. BCrypt), nunca la contraseña
   rol                ENUM('TRABAJADOR','SST_TH') NOT NULL DEFAULT 'TRABAJADOR',
   intentos_fallidos  TINYINT UNSIGNED NOT NULL DEFAULT 0,   -- HU020: bloqueo tras 5 intentos
@@ -362,6 +366,8 @@ VALUES
   (13, 'Sebastián Mejía Arias',  'sebastian.mejia@empresa.com.co', '$2a$10$EjemploHashFicticioNoUsarEnProduccion000000000000013', 'TRABAJADOR', 0, NULL, '16:00:00', 1, 2, '2026-10-02 08:20:00'),
   (14, 'Paula Jiménez Ocampo',   'paula.jimenez@empresa.com.co',   '$2a$10$EjemploHashFicticioNoUsarEnProduccion000000000000014', 'TRABAJADOR', 2, NULL, '16:00:00', 2, 1, '2026-11-02 08:00:00');
 -- Natalia (12) aparece bloqueada por 5 intentos fallidos (HU020).
+-- Los usuarios de ejemplo ya tienen el correo verificado (HU001).
+UPDATE usuario SET correo_verificado = TRUE WHERE id BETWEEN 1 AND 14;
 
 -- ---------------------------------------------------------------------
 -- 2. consentimiento: uno vigente por usuario. Sebastián (13) tiene además

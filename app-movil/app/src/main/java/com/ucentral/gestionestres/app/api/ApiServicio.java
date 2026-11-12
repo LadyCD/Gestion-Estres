@@ -22,6 +22,13 @@ public interface ApiServicio {
     @POST("api/usuarios")
     Call<Dtos.Usuario> registrar(@Body Dtos.RegistroSolicitud solicitud);
 
+    // HU001: verificación del correo con el código de 6 dígitos
+    @POST("api/usuarios/verificar")
+    Call<Void> verificarCorreo(@Body Dtos.VerificacionSolicitud solicitud);
+
+    @POST("api/usuarios/reenviar-codigo")
+    Call<Void> reenviarCodigo(@Body Dtos.CorreoSolicitud solicitud);
+
     // HU020
     @POST("api/auth/login")
     Call<Dtos.LoginRespuesta> login(@Body Dtos.LoginSolicitud solicitud);

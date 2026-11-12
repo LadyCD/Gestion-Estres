@@ -23,6 +23,9 @@ import retrofit2.Response;
 /** HU020: inicio de sesión con correo institucional y contraseña. */
 public class LoginActivity extends AppCompatActivity {
 
+    /** Correo que llega ya escrito, por ejemplo después de verificarlo (HU001). */
+    public static final String EXTRA_CORREO = "correo";
+
     private TextInputEditText correo;
     private TextInputEditText contrasena;
     private TextView mensaje;
@@ -42,6 +45,12 @@ public class LoginActivity extends AppCompatActivity {
         contrasena = findViewById(R.id.campoContrasena);
         mensaje = findViewById(R.id.textoMensaje);
         ingresar = findViewById(R.id.botonIngresar);
+
+        String correoRecibido = getIntent().getStringExtra(EXTRA_CORREO);
+        if (correoRecibido != null) {
+            correo.setText(correoRecibido);
+            contrasena.requestFocus();
+        }
 
         ingresar.setOnClickListener(v -> ingresar());
         findViewById(R.id.botonCrearCuenta).setOnClickListener(
@@ -68,6 +77,11 @@ public class LoginActivity extends AppCompatActivity {
                         if (respuesta.isSuccessful() && cuerpo != null) {
                             new Sesion(LoginActivity.this).iniciar(cuerpo.token, cuerpo.rol, cuerpo.nombreCompleto);
                             abrirInicio();
+                        } else if (respuesta.code() == 403) {
+                            // HU001: contraseña correcta, pero el correo aún no se verificó
+                            Intent verificar = new Intent(LoginActivity.this, VerificarCorreoActivity.class);
+                            verificar.putExtra(VerificarCorreoActivity.EXTRA_CORREO, c.toLowerCase());
+                            startActivity(verificar);
                         } else if (respuesta.code() == 423) {
                             // Cuenta bloqueada por 5 intentos fallidos: el backend envía el mensaje
                             mostrar(Errores.mensaje(respuesta, getString(R.string.login_incorrecto)));
