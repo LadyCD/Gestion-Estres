@@ -34,6 +34,8 @@
 
         <activity android:name=".ui.RegistroActivity"
             android:windowSoftInputMode="adjustResize" android:label="@string/titulo_registro" />
+        <activity android:name=".ui.VerificarCorreoActivity"
+            android:windowSoftInputMode="adjustResize" android:label="@string/titulo_verificar" />
         <activity android:name=".ui.InicioActivity" android:label="@string/app_name" />
         <activity android:name=".ui.ChequeoActivity"
             android:windowSoftInputMode="adjustResize" android:label="@string/titulo_chequeo" />

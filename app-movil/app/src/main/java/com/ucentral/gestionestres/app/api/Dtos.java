@@ -37,6 +37,26 @@ public final class Dtos {
         public String rol;
     }
 
+    /** POST /api/usuarios/verificar (HU001) */
+    public static class VerificacionSolicitud {
+        public String correo;
+        public String codigo;
+
+        public VerificacionSolicitud(String correo, String codigo) {
+            this.correo = correo;
+            this.codigo = codigo;
+        }
+    }
+
+    /** POST /api/usuarios/reenviar-codigo (HU001) */
+    public static class CorreoSolicitud {
+        public String correo;
+
+        public CorreoSolicitud(String correo) {
+            this.correo = correo;
+        }
+    }
+
     /** POST /api/auth/login (HU020) */
     public static class LoginSolicitud {
         public String correo;

@@ -2,6 +2,7 @@ package com.ucentral.gestionestres.service;
 
 import com.ucentral.gestionestres.dto.LoginRespuesta;
 import com.ucentral.gestionestres.dto.LoginSolicitud;
+import com.ucentral.gestionestres.exception.CorreoNoVerificadoException;
 import com.ucentral.gestionestres.exception.CredencialesInvalidasException;
 import com.ucentral.gestionestres.exception.CuentaBloqueadaException;
 import com.ucentral.gestionestres.model.RegistroAcceso;
@@ -43,7 +44,8 @@ public class AuthServicio {
     }
 
     // noRollbackFor: el contador y el bloqueo deben guardarse aunque lancemos 401/423
-    @Transactional(noRollbackFor = {CredencialesInvalidasException.class, CuentaBloqueadaException.class})
+    @Transactional(noRollbackFor = {CredencialesInvalidasException.class, CuentaBloqueadaException.class,
+            CorreoNoVerificadoException.class})
     public LoginRespuesta login(LoginSolicitud solicitud) {
         // Correo inexistente: mismo 401 que clave mala, sin registro (usuario_id es obligatorio)
         Usuario usuario = usuarios.findByCorreo(solicitud.correo())
@@ -74,6 +76,12 @@ public class AuthServicio {
         usuario.setIntentosFallidos(0);
         usuario.setBloqueadoHasta(null);
         usuarios.save(usuario);
+
+        // HU001: solo se revisa después de la contraseña, para no revelar qué correos existen
+        if (!Boolean.TRUE.equals(usuario.getCorreoVerificado())) {
+            registrarRechazo(usuario, "Correo no verificado");
+            throw new CorreoNoVerificadoException();
+        }
 
         return new LoginRespuesta(jwt.generar(usuario), usuario.getRol(),
                 usuario.getNombreCompleto(), jwt.getMinutosExpiracion());

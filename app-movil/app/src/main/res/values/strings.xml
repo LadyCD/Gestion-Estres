@@ -30,8 +30,16 @@
     <string name="error_contrasena">La contraseña debe tener mínimo 8 caracteres, al menos una letra y un número.</string>
     <string name="error_listas">Seleccione su cargo y su área.</string>
     <string name="correo_duplicado">Ya existe una cuenta con este correo.</string>
-    <string name="registro_exitoso">Cuenta creada correctamente.</string>
+    <string name="registro_exitoso">Cuenta creada. Revise su correo para activarla.</string>
     <string name="registro_fallido">No fue posible completar el registro, intente de nuevo.</string>
+    <string name="titulo_verificar">Verifique su correo</string>
+    <string name="instruccion_verificar">Enviamos un código de 6 dígitos a %1$s. Escríbalo aquí para activar su cuenta. El código vence en 15 minutos.</string>
+    <string name="campo_codigo">Código de verificación</string>
+    <string name="boton_verificar">Verificar</string>
+    <string name="boton_reenviar">No me llegó: reenviar código</string>
+    <string name="error_codigo">Escriba el código de 6 dígitos que llegó a su correo.</string>
+    <string name="correo_verificado">Correo verificado. Ya puede ingresar.</string>
+    <string name="codigo_reenviado">Le enviamos un código nuevo. Revise también la carpeta de spam.</string>
 
     <!-- Inicio -->
     <string name="saludo">Hola, %1$s</string>

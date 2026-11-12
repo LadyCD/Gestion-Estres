@@ -32,6 +32,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(RUTAS_PUBLICAS).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
+                        // HU001: verificación del correo, antes de poder iniciar sesión
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios/verificar", "/api/usuarios/reenviar-codigo").permitAll()
                         // HU026: la app envía con la credencial del dispositivo (X-Token-Dispositivo),
                         // no con la sesión; la valida VentanaSenalService
                         .requestMatchers(HttpMethod.POST, "/api/ventanas").permitAll()

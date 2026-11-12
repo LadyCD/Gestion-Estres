@@ -32,6 +32,7 @@ class UsuarioServiceTest {
     private CargoRepository cargoRepository;
     private AreaRepository areaRepository;
     private PasswordEncoder passwordEncoder;
+    private VerificacionCorreoService verificacionCorreo;
     private UsuarioService service;
 
     @BeforeEach
@@ -41,8 +42,9 @@ class UsuarioServiceTest {
         cargoRepository = mock(CargoRepository.class);
         areaRepository = mock(AreaRepository.class);
         passwordEncoder = new BCryptPasswordEncoder();
+        verificacionCorreo = mock(VerificacionCorreoService.class);
         service = new UsuarioService(usuarioRepository, consentimientoRepository,
-                cargoRepository, areaRepository, passwordEncoder, "ucentral.edu.co", "1.0");
+                cargoRepository, areaRepository, passwordEncoder, verificacionCorreo, "ucentral.edu.co", "1.0");
 
         when(cargoRepository.findById(1)).thenReturn(Optional.of(mock(Cargo.class)));
         when(areaRepository.findById(1)).thenReturn(Optional.of(mock(Area.class)));
@@ -70,6 +72,10 @@ class UsuarioServiceTest {
         verify(consentimientoRepository).save(c.capture());
         assertTrue(c.getValue().getVigente());
         assertEquals("1.0", c.getValue().getVersion());
+
+        // La cuenta nace sin verificar y se envía el código al correo
+        assertFalse(u.getValue().getCorreoVerificado());
+        verify(verificacionCorreo).emitirCodigo(u.getValue());
     }
 
     @Test
@@ -79,6 +85,7 @@ class UsuarioServiceTest {
         assertThrows(ReglaNegocioException.class,
                 () -> service.registrar(solicitud("ana@ucentral.edu.co", "1.0")));
         verify(usuarioRepository, never()).saveAndFlush(any());
+        verify(verificacionCorreo, never()).emitirCodigo(any());
     }
 
     @Test

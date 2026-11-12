@@ -79,6 +79,12 @@ public class ManejadorErrores {
         return responder(HttpStatus.UNAUTHORIZED, ex.getMessage(), null);
     }
 
+    /** HU001: la cuenta existe pero falta verificar el correo. */
+    @ExceptionHandler(CorreoNoVerificadoException.class)
+    public ResponseEntity<ErrorRespuesta> correoNoVerificado(CorreoNoVerificadoException ex) {
+        return responder(HttpStatus.FORBIDDEN, ex.getMessage(), null);
+    }
+
     /** HU020: cuenta bloqueada por intentos fallidos. */
     @ExceptionHandler(CuentaBloqueadaException.class)
     public ResponseEntity<ErrorRespuesta> cuentaBloqueada(CuentaBloqueadaException ex) {

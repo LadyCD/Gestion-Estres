@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-/** HU001: registro de usuarios con consentimiento informado (Ley 1581 de 2012). */
+/** HU001: registro de usuarios con consentimiento informado (Ley 1581 de 2012) y verificación del correo. */
 @Service
 public class UsuarioService {
 
@@ -32,6 +32,7 @@ public class UsuarioService {
     private final CargoRepository cargoRepository;
     private final AreaRepository areaRepository;
     private final PasswordEncoder passwordEncoder;
+    private final VerificacionCorreoService verificacionCorreo;
     private final List<String> dominiosPermitidos;
     private final String versionConsentimiento;
 
@@ -40,6 +41,7 @@ public class UsuarioService {
                           CargoRepository cargoRepository,
                           AreaRepository areaRepository,
                           PasswordEncoder passwordEncoder,
+                          VerificacionCorreoService verificacionCorreo,
                           @Value("${app.registro.dominios-permitidos}") String dominios,
                           @Value("${app.registro.version-consentimiento}") String versionConsentimiento) {
         this.usuarioRepository = usuarioRepository;
@@ -47,6 +49,7 @@ public class UsuarioService {
         this.cargoRepository = cargoRepository;
         this.areaRepository = areaRepository;
         this.passwordEncoder = passwordEncoder;
+        this.verificacionCorreo = verificacionCorreo;
         this.dominiosPermitidos = Arrays.stream(dominios.split(","))
                 .map(d -> d.trim().toLowerCase(Locale.ROOT))
                 .filter(d -> !d.isEmpty())
@@ -94,6 +97,9 @@ public class UsuarioService {
         consentimiento.setVersion(versionConsentimiento);
         consentimiento.setVigente(Boolean.TRUE);
         consentimientoRepository.save(consentimiento);
+
+        // La cuenta queda pendiente hasta que el usuario escriba el código enviado al correo
+        verificacionCorreo.emitirCodigo(usuario);
 
         return new UsuarioRespuesta(usuario.getId(), usuario.getNombreCompleto(),
                 usuario.getCorreo(), usuario.getRol());

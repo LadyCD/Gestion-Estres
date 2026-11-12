@@ -1,5 +1,6 @@
 package com.ucentral.gestionestres.app.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.widget.ArrayAdapter;
@@ -105,7 +106,11 @@ public class RegistroActivity extends AppCompatActivity {
                 registrarme.setEnabled(true);
                 if (respuesta.isSuccessful()) {
                     Toast.makeText(RegistroActivity.this, R.string.registro_exitoso, Toast.LENGTH_LONG).show();
-                    finish();   // vuelve al inicio de sesión
+                    // HU001: la cuenta se activa al escribir el código enviado al correo
+                    Intent verificar = new Intent(RegistroActivity.this, VerificarCorreoActivity.class);
+                    verificar.putExtra(VerificarCorreoActivity.EXTRA_CORREO, solicitud.correo);
+                    startActivity(verificar);
+                    finish();
                 } else if (respuesta.code() == 409) {
                     correo.setError(getString(R.string.correo_duplicado));
                     limpiarContrasena();
