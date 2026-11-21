@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primario">#1F5F8B</color>
+    <color name="nivel_bajo">#2E7D32</color>
+    <color name="nivel_moderado">#F9A825</color>
+    <color name="nivel_alto">#C62828</color>
+</resources>

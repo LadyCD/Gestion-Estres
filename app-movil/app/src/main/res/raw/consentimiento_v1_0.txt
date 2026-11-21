@@ -1,0 +1,23 @@
+Autorización para el tratamiento de datos personales y datos sensibles de salud
+
+Al marcar la casilla «He leído y acepto», usted autoriza de manera previa, expresa e informada el tratamiento de sus datos, en los términos de la Ley 1581 de 2012 y del Decreto 1377 de 2013 (incorporado en el Decreto 1074 de 2015).
+
+1. Responsable del tratamiento. Equipo del proyecto «Gestión del Estrés» (Grupo 2, Práctica de Ingeniería III, Ingeniería de Sistemas, Universidad Central). Contacto: lduqued@ucentral.edu.co. Cuando la herramienta la implemente una organización, esta asume como responsable y debe actualizar este apartado.
+
+2. Datos que se recolectan.
+• Datos de identificación y laborales: nombre completo, correo institucional, cargo y área.
+• Datos sensibles de salud: frecuencia cardíaca y variabilidad de la frecuencia cardíaca leídas de su wearable a través de Health Connect, y sus respuestas al chequeo diario y a la escala mensual de estrés percibido.
+
+3. Finalidad. Estimar su nivel de estrés durante la jornada, mostrarle sus resultados y tendencias, enviarle alertas y sugerencias, y producir reportes agregados y anónimos por área y periodo para el área de Seguridad y Salud en el Trabajo o Talento Humano.
+
+4. Lo que recibe la organización. Únicamente promedios por área y periodo, y solo cuando el grupo tiene al menos 5 personas. La organización no recibe sus señales, sus respuestas, su nivel de estrés individual ni ningún dato que lo identifique.
+
+5. Cómo se protegen sus datos. No se almacenan las señales crudas del wearable: solo promedios por ventana de 15 minutos, que se eliminan a las 24 horas, y los indicadores calculados con ellos (su línea base y su nivel de estrés). Su contraseña se guarda cifrada (hash) y la información viaja por canales cifrados.
+
+6. Carácter facultativo. Usted no está obligado(a) a autorizar el tratamiento de datos sensibles ni a responder las preguntas sobre su salud. Puede omitir los cuestionarios y desvincular el wearable en cualquier momento. Si no acepta este consentimiento, no se crea su cuenta ni se guarda ningún dato suyo.
+
+7. No es un diagnóstico. Los resultados son indicadores orientativos y no reemplazan la valoración de un profesional de la salud ni la Batería de instrumentos para la evaluación de factores de riesgo psicosocial (Resolución 2764 de 2022).
+
+8. Sus derechos. Conocer, actualizar y rectificar sus datos; solicitar prueba de esta autorización; ser informado(a) del uso que se les da; revocar la autorización o pedir la eliminación de sus datos; y presentar quejas ante la Superintendencia de Industria y Comercio. Para ejercerlos, escriba al contacto del numeral 1.
+
+9. Participación voluntaria. Este prototipo hace parte de un proyecto académico de riesgo mínimo (Resolución 8430 de 1993). Su participación es voluntaria y puede retirarse en cualquier momento sin ninguna consecuencia.

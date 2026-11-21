@@ -1,0 +1,7 @@
+// Archivo raíz: solo declara las versiones de los plugins.
+plugins {
+    id 'com.android.application' version '8.13.0' apply false
+    // Kotlin solo se usa en salud/SaludConexion.kt, el puente con Health Connect
+    // (su API es de corrutinas y no se puede llamar directamente desde Java).
+    id 'org.jetbrains.kotlin.android' version '2.2.0' apply false
+}
